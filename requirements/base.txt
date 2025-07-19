@@ -1,0 +1,34 @@
+# Django & Django Rest Framework
+Django==5.0.7
+django-cors-headers==4.4.0
+django-filter==24.2
+django-storages==1.14.4
+djangorestframework==3.15.2
+djangorestframework-simplejwt[crypto]==5.3.1
+drf-spectacular==0.27.2
+drf-yasg==1.21.7
+
+psycopg2-binary==2.9.9
+
+# Celery
+celery==5.4.0
+django_celery_results==2.5.1
+
+# Redis
+redis==5.0.7
+
+# Deployment
+gunicorn==22.0.0
+
+# Miscellaneous
+pre-commit==3.7.1
+drf-writable-nested==0.7.0
+django-import-export==4.1.1
+
+# RAG
+pymupdf==1.26.3 
+python-docx==1.2.0
+chromadb==1.0.15
+langchain==0.3.26
+langchain-experimental==0.3.4
+sentence-transformers==5.0.0

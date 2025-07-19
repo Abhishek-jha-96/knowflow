@@ -1,0 +1,87 @@
+services:
+
+
+  redis:
+    image: redis:latest
+    container_name: knowflow_redis
+
+
+
+  postgres:
+    image: postgres:latest
+    container_name: knowflow_postgres
+    env_file:
+      - .envs/dev/db.env
+    volumes:
+      - knowflow_postgres_volume:/var/lib/postgresql/data/
+
+
+
+
+  server:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+      args:
+        ENVIRONMENT: dev
+    container_name: knowflow_api
+    env_file:
+      - .envs/dev/api.env
+      - .envs/dev/db.env
+    volumes:
+      - ./:/code
+    restart: always
+  
+    depends_on:
+    
+      - postgres
+    
+    
+    
+      - redis
+    
+  
+
+
+  celery:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+      args:
+        ENVIRONMENT: dev
+    container_name: knowflow_celery
+    env_file:
+      - .envs/dev/api.env
+      - .envs/dev/db.env
+    volumes:
+      - ./:/code
+    entrypoint: python -m celery -A knowflow worker -l info
+    depends_on:
+      - redis
+
+
+
+  celery-beat:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+      args:
+        ENVIRONMENT: dev
+    container_name: knowflow_celery_beat
+    env_file:
+      - .envs/dev/api.env
+      - .envs/dev/db.env
+    volumes:
+      - ./:/code
+    entrypoint: python -m celery -A knowflow beat -l info
+    depends_on:
+      - redis
+
+
+
+volumes:
+  
+  knowflow_postgres_volume:
+  
+  
+
